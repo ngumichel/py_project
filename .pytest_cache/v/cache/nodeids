@@ -1,0 +1,4 @@
+[
+  "tests/city_test.py::test_main",
+  "tests/city_test.py::test_golden"
+]
