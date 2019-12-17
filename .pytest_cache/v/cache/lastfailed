@@ -1,3 +1,4 @@
 {
-  "tests/city_test.py": true
+  "tests/city_test.py": true,
+  "tests/city_test.py::test_main": true
 }
