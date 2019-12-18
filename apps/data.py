@@ -1,8 +1,9 @@
 import pandas as pd
 from pandas import DataFrame
+from database import db
 
-def read_csv_file(file, columns, separator, header):
-    return pd.read_csv(file, names=columns, sep=separator, header=header, low_memory=False)
+def read_csv_file(data_file, columns, separator, header):
+    return pd.read_csv(data_file, names=columns, sep=separator, header=header, low_memory=False)
 
 def sort_data_by_column(data, column):
     return data.sort_values(column, ascending=False)
@@ -18,3 +19,8 @@ def show_first_ten_data_in_graph(cities, x, y, kind):
 
 def merge_data(cities, schools, column):
     return pd.merge(cities, schools, on=column)
+
+def save_data_into_database(data, model):
+    data_dict = data.to_dict('records')
+    return model.insert_many(data_dict).execute()
+    
