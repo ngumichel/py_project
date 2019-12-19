@@ -4,14 +4,16 @@ import apps.data as dt
 
 narrow_column_name = ['Code commune', 'Taux Brut de Réussite Total séries', 'Taux Réussite Attendu France Total séries', 'Taux Objectif']
 
-def extract_and_prepare_schools_from_csv():
+def extract_and_prepare_schools_from_csv(cities):
     schools = dt.read_csv_file(CSV_SCHOOL, None, ";", 'infer')
-    return format_schools_data(schools, INSEE_CODE)
+    return format_schools_data(schools, cities, INSEE_CODE)
 
-def format_schools_data(schools, city_code):
+def format_schools_data(schools, cities, city_code):
     grouped_schools = group_disctrict_city_into_one_value(schools, city_code)
     create_new_column_from_data(grouped_schools)
-    return dt.narrow_data_column(grouped_schools, narrow_column_name)
+    narrowed_schools = dt.narrow_data_column(grouped_schools, narrow_column_name)
+    merged_schools = dt.merge_data(cities, schools, "Code commune")
+    return dt.narrow_data_column(merged_schools, narrow_column_name)
 
 def group_disctrict_city_into_one_value(schools, city_codes):
     for city in city_codes:

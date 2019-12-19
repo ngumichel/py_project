@@ -16,8 +16,8 @@ def narrow_data_column(data, columns):
 def show_data_in_graph(data, range, x, y, kind):
     return data.head(range).plot(x=x, y=y, kind=kind)
 
-def merge_data(cities, schools, column):
-    return pd.merge(cities, schools, on=column)
+def merge_data(data_1, data_2, column):
+    return pd.merge(data_1, data_2, on=column)
 
 def save_data_into_database(data, model):
     data_dict = data.to_dict('records')
