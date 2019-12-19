@@ -8,5 +8,4 @@ class School(BaseModel):
     expected_success_rate = FloatField()
     success_rate_spread = FloatField()
 
-School.drop_table(safe=True)
 School.create_table()
