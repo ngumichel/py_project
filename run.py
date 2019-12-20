@@ -2,10 +2,12 @@ from settings import CSV_CITY, CSV_SCHOOL, INSEE_CODE
 from database import db
 from apps.cities.models import City
 from apps.schools.models import School
+from apps.doctors.models import Doctor
 import pandas as pd
 import matplotlib.pyplot as plt
 import apps.cities.city as ct
 import apps.schools.school as sch
+import apps.doctors.doctor as dc
 import apps.data as dt
 import argparse
 
@@ -22,8 +24,10 @@ if __name__ == '__main__':
         choices=[
             "compute_city",
             "compute_school",
+            "compute_doctor",
             "show_city_chart",
             "show_school_chart",
+            "show_doctor_chart"
         ],
     )
     args = parser.parse_args()
@@ -37,11 +41,16 @@ if __name__ == '__main__':
     if args.action == "compute_school":
         # compute and store result in sql
         cities = ct.extract_and_prepare_cities_from_csv()
-        schools = sch.extract_and_prepare_schools_from_csv()
-        merged_data = dt.merge_data(cities, schools, "Code commune")
-        school_reduce = dt.narrow_data_column(merged_data, ['Code commune', 'Taux Brut de Réussite Total séries', 'Taux Réussite Attendu France Total séries', "Taux Objectif"])
-        schools_rename = sch.rename_school_column(school_reduce)
+        schools = sch.extract_and_prepare_schools_from_csv(cities)
+        schools_rename = sch.rename_school_column(schools)
         dt.save_data_into_database(schools_rename, School)
+
+    if args.action == "compute_doctor":
+        # compute and store result in sql
+        cities = ct.extract_and_prepare_cities_from_csv()
+        doctors = dc.extract_and_prepare_doctors_from_csv(cities)
+        doctors_rename = dc.rename_doctor_column(doctors)
+        dt.save_data_into_database(doctors_rename, Doctor)
 
     if args.action == "show_city_chart":
         # show result in a chart
@@ -55,6 +64,13 @@ if __name__ == '__main__':
         schools = pd.DataFrame(School.select(City, School).join(City).order_by(School.success_rate_spread.desc()).dicts())
         print(schools)
         school_rank = dt.show_data_in_graph(schools, 50, 'name', 'success_rate_spread', 'bar')
+        plt.show()
+
+    if args.action == "show_doctor_chart":
+        # show result in a chart
+        doctors = pd.DataFrame(Doctor.select(City, Doctor).join(City).order_by(Doctor.doctor_count.desc()).dicts())
+        print(doctors)
+        doctor_rank = dt.show_data_in_graph(doctors, 20, 'name', 'doctor_count', 'barh')
         plt.show()
 
     db.close()
