@@ -3,8 +3,9 @@ python:
   - 3.5
   - 3.6
 before_install:
-  - pip install -U pytest
+  - pip install -U pytest pytest-cov codecov
 install:
   - pip install pandas peewee matplotlib haversine
-script: pytest -v  # run tests
- 
+script: pytest -v --cov=.  # run tests
+after_success:
+  - codecov
