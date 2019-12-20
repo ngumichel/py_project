@@ -1,4 +1,7 @@
 {
-  "tests/city_test.py": true,
-  "tests/city_test.py::test_main": true
+  "tests/city_test.py::test_main": true,
+  "tests/city_test.py::test_main_data": true,
+  "tests/test_city.py": true,
+  "tests/test_doctor.py": true,
+  "tests/test_school.py": true
 }

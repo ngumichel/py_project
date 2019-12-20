@@ -21,5 +21,6 @@ def merge_data(data_1, data_2, column):
 
 def save_data_into_database(data, model):
     data_dict = data.to_dict('records')
+    model.delete().execute()
     return model.insert_many(data_dict).execute()
     

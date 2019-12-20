@@ -68,9 +68,8 @@ if __name__ == '__main__':
 
     if args.action == "show_doctor_chart":
         # show result in a chart
-        doctors = pd.DataFrame(Doctor.select(City, Doctor).join(City).order_by(Doctor.doctor_count.desc()).dicts())
-        print(doctors)
-        doctor_rank = dt.show_data_in_graph(doctors, 20, 'name', 'doctor_count', 'barh')
+        doctors = pd.DataFrame(Doctor.select(City, Doctor).join(City).order_by(Doctor.citizens_per_doctor.desc()).dicts())
+        doctor_rank = dt.show_data_in_graph(doctors, 20, 'name', 'citizens_per_doctor', 'barh')
         plt.show()
 
     db.close()

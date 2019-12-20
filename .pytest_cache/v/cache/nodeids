@@ -1,5 +1,13 @@
 [
   "tests/city_test.py::test_main",
   "tests/city_test.py::test_golden",
-  "tests/city_test.py::test_golden_master"
+  "tests/city_test.py::test_golden_master",
+  "tests/city_test.py::test_main_data",
+  "tests/test_city.py::test_city",
+  "tests/test_city.py::test_city_data",
+  "tests/test_doctor.py::test_main",
+  "tests/test_school.py::test_city_code_column_should_have_unique_value",
+  "tests/test_school.py::test_city_code_column_should_only_have_unique_value",
+  "tests/test_school.py::test_main_city_code_should_be_in_dataframe",
+  "tests/test_school.py::test_district_city_code_should_not_be_in_dataframe"
 ]
